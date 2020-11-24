@@ -17,6 +17,8 @@
 
 --
 -- Table structure for table `cliente`
+CREATE DATABASE 'appserversinf';
+USE 'appserversinf';
 --
 
 DROP TABLE IF EXISTS `cliente`;
