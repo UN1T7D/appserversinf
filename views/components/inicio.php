@@ -1,11 +1,11 @@
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
-        <h1 class="display-4">TAREA DE LA UNIDAD IV - SISTEMAS DE INFORMACION GERENCIAL / 01</h1>
-        <p class="lead">Lic. Héctor Salomón Aquino Gómez</p>
+        <h1 class="display-4 text-center">TAREA DE LA UNIDAD IV - SISTEMAS DE INFORMACION GERENCIAL / 01</h1>
+        <p class="lead text-center">Lic. Héctor Salomón Aquino Gómez</p>
     </div>
 </div>
 
-<div class="container border mt-5 p-5">
+<div class="container border mt-5 p-5 container-query">
     <h3 class="text-center">INTEGRANTES DEL EQUIPO</h3>
     <table class="table table-sm">
         <thead class="thead-dark">

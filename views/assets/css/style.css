@@ -1,0 +1,28 @@
+body{
+    background: rgb(221, 221, 221);
+}
+
+
+
+.jumbotron{
+    background-image: url("../img/Nuestro_Sue¤o_HOME.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-y: center;
+}
+
+.jumbotron h1,  p{
+    background: rgba(0, 0, 0, 0.755);
+    padding: 10px;
+    color: #fff;
+    text-align: center;
+}
+
+.container-query{
+    background: #fff;
+    border-radius: 10px;
+}
+
+table{
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.213);
+}

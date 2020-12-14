@@ -39,7 +39,7 @@
 }
 ?>
 
-<div class="container p-5">
+<div class="container container-query p-5">
     <h1>CONSULTA 3</h1>
     <div class="row my-3">
         <div class="col-md-6 m-auto">

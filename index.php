@@ -1,4 +1,6 @@
 <?php
+    /* error_reporting(0); */
+
     require_once("configurations/conexion.php");
     require_once("views/layout/header.php");
     require_once("views/layout/container.php");   

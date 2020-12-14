@@ -1,5 +1,6 @@
 <?php
 
+
 $vista = $_GET["view"];
 $accion = $_GET["action"];
 if (isset($vista)) {
