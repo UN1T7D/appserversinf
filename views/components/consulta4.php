@@ -2,15 +2,14 @@
     function Rutas($database){
 
             
-            $consulta = "SELECT 
-                                c.direccion as Direccion, 
-                                p.nombre as Producto,
-                                c.frecuencia as Frecuencia FROM ventas v
-                            INNER JOIN cliente c
-                            ON v.id_cliente = c.id_cliente
-                            INNER JOIN producto p 
-                            ON v.id_producto = p.id_producto
-                        ORDER BY Producto
+            $consulta = "SELECT c.direccion as Direccion,
+            p.nombre as Producto,v.id_producto as Idproducto,
+            c.frecuencia as Frecuencia FROM ventas v
+            INNER JOIN cliente c
+             ON v.id_cliente = c.id_cliente
+            INNER JOIN producto p
+            ON v.id_producto = p.id_producto
+            GROUP BY Direccion
                                         ";
             $prepare = $database->prepare($consulta);
             $prepare->execute();

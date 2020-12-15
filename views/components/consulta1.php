@@ -1,4 +1,5 @@
-<?php
+<?php   
+    require_once("intervalo.php");
 
     function ProductoPorMes($database, $form){
 
@@ -35,146 +36,10 @@
             $inicio = $form["inicio"];
             $fin = $form["fin"];
             
-            switch ($fin) {
-                case 1:
-                        $anio = $inicio;
-                        $inicio = $anio."-01-01";
-                        $fin = $anio."-01-31";
-                        echo "
-                            <div class='row mt-3 mb-3'>
-                                <div class='col-md-4 bg-success text-white p-3'>
-                                    <span>Margen del ".$inicio.", hasta el ".$fin."</span>
-                                </div>
-                            </div>";
-                    break;
-                case 2:
-                        $anio = $inicio;
-                        $inicio = $anio."-02-01";
-                        $fin = $anio."-02-29";
-                        echo "
-                            <div class='row mt-3 mb-3'>
-                                <div class='col-md-4 bg-success text-white p-3'>
-                                    <span>Margen del ".$inicio.", hasta el ".$fin."</span>
-                                </div>
-                            </div>";
-                        
-                    break;
-                case 3:
-                        $anio = $inicio;
-                        $inicio = $anio."-03-01";
-                        $fin = $anio."-03-31";
-                        echo "
-                            <div class='row mt-3 mb-3'>
-                                <div class='col-md-4 bg-success text-white p-3'>
-                                    <span>Margen del ".$inicio.", hasta el ".$fin."</span>
-                                </div>
-                            </div>";
-                    break;
-                case 4:
-                        $anio = $inicio;
-                        $inicio = $anio."-04-01";
-                        $fin = $anio."-04-30";
-                        echo "
-                            <div class='row mt-3 mb-3'>
-                                <div class='col-md-4 bg-success text-white p-3'>
-                                    <span>Margen del ".$inicio.", hasta el ".$fin."</span>
-                                </div>
-                            </div>";
-                    break;
-                case 5:
-                        $anio = $inicio;
-                        $inicio = $anio."-05-01";
-                        $fin = $anio."-05-31";
-                        echo "
-                            <div class='row mt-3 mb-3'>
-                                <div class='col-md-4 bg-success text-white p-3'>
-                                    <span>Margen del ".$inicio.", hasta el ".$fin."</span>
-                                </div>
-                            </div>";
-                    break;
-                case 6:
-                        $anio = $inicio;
-                        $inicio = $anio."-06-01";
-                        $fin = $anio."-06-30";
-                        echo "
-                            <div class='row mt-3 mb-3'>
-                                <div class='col-md-4 bg-success text-white p-3'>
-                                    <span>Margen del ".$inicio.", hasta el ".$fin."</span>
-                                </div>
-                            </div>";
-                    break;
-                case 7:
-                        $anio = $inicio;
-                        $inicio = $anio."-07-01";
-                        $fin = $anio."-07-31";
-                        echo "
-                            <div class='row mt-3 mb-3'>
-                                <div class='col-md-4 bg-success text-white p-3'>
-                                    <span>Margen del ".$inicio.", hasta el ".$fin."</span>
-                                </div>
-                            </div>";
-                    break;
-                case 8:
-                        $anio = $inicio;
-                        $inicio = $anio."-08-01";
-                        $fin = $anio."-08-31";
-                        echo "
-                            <div class='row mt-3 mb-3'>
-                                <div class='col-md-4 bg-success text-white p-3'>
-                                    <span>Margen del ".$inicio.", hasta el ".$fin."</span>
-                                </div>
-                            </div>";
-                    break;
-                case 9:
-                        $anio = $inicio;
-                        $inicio = $anio."-09-01";
-                        $fin = $anio."-09-30";
-                        echo "
-                            <div class='row mt-3 mb-3'>
-                                <div class='col-md-4 bg-success text-white p-3'>
-                                    <span>Margen del ".$inicio.", hasta el ".$fin."</span>
-                                </div>
-                            </div>";
-                    break;
-                case 10:
-                        $anio = $inicio;
-                        $inicio = $anio."-10-01";
-                        $fin = $anio."-10-31";
-                        echo "
-                            <div class='row mt-3 mb-3'>
-                                <div class='col-md-4 bg-success text-white p-3'>
-                                    <span>Margen del ".$inicio.", hasta el ".$fin."</span>
-                                </div>
-                            </div>";
-                    break;
-                case 11:
-                        $anio = $inicio;
-                        $inicio = $anio."-11-01";
-                        $fin = $anio."-11-30";
-                        echo "
-                            <div class='row mt-3 mb-3'>
-                                <div class='col-md-4 bg-success text-white p-3'>
-                                    <span>Margen del ".$inicio.", hasta el ".$fin."</span>
-                                </div>
-                            </div>";
-                    break;
-                case 12:
-                        $anio = $inicio;
-                        $inicio = $anio."-12-01";
-                        $fin = $anio."-12-31";
-                        echo "
-                            <div class='row mt-3 mb-3'>
-                                <div class='col-md-4 bg-success text-white p-3'>
-                                    <span>Margen del ".$inicio.", hasta el ".$fin."</span>
-                                </div>
-                            </div>";
-                    break;
-
-                
-                default:
-                    # code...
-                    break;
-            }
+            echo intervalo($inicio, $fin);
+            $inicial = intervaloInicio($inicio, $fin);
+            $final = intervaloFin($inicio, $fin);
+            
             $consulta = "SELECT 
                                 CONCAT(c.nombres,' ',c.apellidos) as Cliente,
                                 p.id_producto as Correlativos,
@@ -200,8 +65,8 @@
                         ORDER BY Unidades DESC
                         ";
             $prepare = $database->prepare($consulta);
-            $prepare->bindParam(":inicio", $inicio, PDO::PARAM_STR);
-            $prepare->bindParam(":fin", $fin, PDO::PARAM_STR);
+            $prepare->bindParam(":inicio", $inicial, PDO::PARAM_STR);
+            $prepare->bindParam(":fin", $final, PDO::PARAM_STR);
             $prepare->execute();
             return $prepare;
         }
@@ -266,58 +131,53 @@
 
     </form>
 
-    <div class="row mt-1 mb-5">
-        <div class="col-md-1">
-            <button onclick="printDiv(tables)" class="btn btn-block btn-primary" name="verificar"><i class="fas fa-print"></i></button>
-        </div>
+    
+
+    <div id="tables1">
+        <table class="table datatables table-sm text-center" id="">
+            <thead class="thead-dark text-center"">
+                <tr>
+                    <th scope=" col">#</th>
+                <th scope="col">Corelativo</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Categoria</th>
+                <th scope="col">Producto</th>
+                <th scope="col">Ventas</th>
+                <th scope="col">Precio </th>
+                <th scope="col">Stock</th>
+                <th scope="col">Total</th>
+                <th scope="col">Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php 
+                                $array = ProductoPorMes($db,$_POST);
+                                $contador = 1;
+                                while($row = $array->fetch(PDO::FETCH_ASSOC)){
+                                $fecha = $row["fecha_de_compra"];
+                                $fecha_proporcional = substr($fecha, 0, -9);
+                                if ($contador == 1) {
+                                    $bg = "bg-success text-white ";
+                                }else {
+                                     $bg = "";
+                                }
+                                    ?>
+                <tr class="<?=$bg?>">
+                    <th scope="row"><?=$contador?></th>
+                    <td><?=$row["Correlativos"]?></td>
+                    <td><?=$row["Cliente"]?></td>
+                    <td><?=$row["Categoria"]?></td>
+                    <td><?=$row["Producto"]?></td>
+                    <td><?=$row["Ventas_Realizadas"]?></td>
+                    <td><?="$ ".$row["Precio_Mercado"]?></td>
+                    <td><?=$row["Unidades"]?></td>
+                    <td><?="$ ".$row["Ventas_Total"]?></td>
+                    <td class="bg-secondary text-white"><?=$fecha_proporcional?></td>
+                </tr>
+                <?php $contador++; } ?>
+            </tbody>
+        </table>
     </div>
-
-    <table class="table datatables table-sm text-center" id="tables">
-        <thead class="thead-dark text-center"">
-            <tr>
-                <th scope=" col">#</th>
-            <th scope="col">Corelativo</th>
-            <th scope="col">Cliente</th>
-            <th scope="col">Categoria</th>
-            <th scope="col">Producto</th>
-            <th scope="col">Ventas</th>
-            <th scope="col">Precio </th>
-            <th scope="col">Stock</th>
-            <th scope="col">Total</th>
-            <th scope="col">Fecha</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php 
-                            $array = ProductoPorMes($db,$_POST);
-                            $contador = 1;
-                            while($row = $array->fetch(PDO::FETCH_ASSOC)){
-                            $fecha = $row["fecha_de_compra"];
-                            $fecha_proporcional = substr($fecha, 0, -9);
-                            if ($contador == 1) {
-                                $bg = "bg-success text-white ";
-                            }else {
-                                 $bg = "";
-                            }
-                                ?>
-            <tr class="<?=$bg?>">
-                <th scope="row"><?=$contador?></th>
-                <td><?=$row["Correlativos"]?></td>
-                <td><?=$row["Cliente"]?></td>
-                <td><?=$row["Categoria"]?></td>
-                <td><?=$row["Producto"]?></td>
-                <td><?=$row["Ventas_Realizadas"]?></td>
-                <td><?="$ ".$row["Precio_Mercado"]?></td>
-                <td><?=$row["Unidades"]?></td>
-                <td><?="$ ".$row["Ventas_Total"]?></td>
-                <td class="bg-secondary text-white"><?=$fecha_proporcional?></td>
-            </tr>
-            <?php $contador++; } ?>
-        </tbody>
-    </table>
-    <!--  -->
-
-    <!--  -->
 
 </div>
 

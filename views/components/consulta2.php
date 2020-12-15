@@ -1,6 +1,8 @@
 <?php
-    function ProductoMasVendido($database){
-
+    require_once("intervalo.php");
+    function ProductoMasVendido($database, $form){
+        
+        if ($form == "" || empty($form) || $form == NULL) {
             
             $consulta = "SELECT  
                                 count(v.id_ventas) as Cantidad_de_pedidos, 
@@ -25,6 +27,44 @@
             $prepare = $database->prepare($consulta);
             $prepare->execute();
             return $prepare;
+        }else{
+            
+            $inicio = $form["inicio"];
+            $fin = $form["fin"];
+
+            echo intervalo($inicio, $fin);
+            $inicial = intervaloInicio($inicio, $fin);
+            $final = intervaloFin($inicio, $fin);
+            
+            $consulta = "SELECT  
+                                count(v.id_ventas) as Cantidad_de_pedidos, 
+                                p.nombre as Producto,
+                                p.categoria as Categoria,
+                                p.stock as Stock, 
+                                p.lote as Lote, 
+                                p.estiba as Estiba, 
+                                    (p.costo*(SUM(v.unidades)))as Costo,
+                                    (p.precio*(SUM(v.unidades)))as Venta_Mercado,
+                                    ((p.precio*(SUM(v.unidades))) - (p.costo*(SUM(v.unidades)))) as Ganancia,
+                                    v.fecha_de_compra
+                        FROM ventas v
+                            INNER JOIN tienda  t
+                            ON
+                                v.id_tienda = t.id_tienda
+                            INNER JOIN producto p
+                            ON
+                                v.id_producto = p.id_producto
+                        WHERE v.fecha_de_compra between :inicio AND :fin
+                        Group by p.nombre
+                        order by Cantidad_de_pedidos DESC
+                        ";
+            $prepare = $database->prepare($consulta);
+            $prepare->bindParam(":inicio", $inicial, PDO::PARAM_STR);
+            $prepare->bindParam(":fin", $final, PDO::PARAM_STR);
+            $prepare->execute();
+            return $prepare;
+            
+        }
         
     }
 ?>
@@ -88,20 +128,20 @@
         <thead class="thead-dark">
             <tr class="text-center">
                 <th scope="col">#</th>
-                <th scope="col">Nº Pedidos</th>
+                <th scope="col">Pedidos</th>
                 <th scope="col">Producto</th>
                 <th scope="col">Categoria</th>
                 <th scope="col">Stock</th>
                 <th scope="col">Lote</th>
                 <th scope="col">Estiba</th>
                 <th scope="col">Egresos</th>
-                <th scope="col">Venta Mercado</th>
+                <th scope="col">Ventas</th>
                 <th scope="col">Ingresos</th>
             </tr>
         </thead>
         <tbody>
             <?php 
-                            $array = ProductoMasVendido($db);
+                            $array = ProductoMasVendido($db, $_POST);
                             $contador = 1;
                             while($row = $array->fetch(PDO::FETCH_ASSOC)){?>
             <tr class="text-center">
